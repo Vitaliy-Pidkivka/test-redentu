@@ -3,10 +3,16 @@ import './App.scss';
 import Button from "./components/shared/Button/Button";
 import NodeElement from "./components/NodeEmelent/NodeElement";
 
+
+const defaultStyleValues = {
+    color: 'blue',
+    background: 'red',
+    fontSize: '40px',
+}
 class App extends React.Component {
 
     componentDidMount() {
-        let text = document.querySelector('.text');
+        const text = document.querySelector('.text');
         text.innerHTML = `${this.state.text}`
     }
     state = {
@@ -16,39 +22,31 @@ class App extends React.Component {
         anchorOffset: 0,
         textNodes: [],
     }
-    domRangeHighlight(text, style) {
-        let root = document.querySelector('.text').firstChild;
-        let content = root.nodeValue;
-        if (~content.indexOf(text)) {
+    domRangeHighlight(style) {
+        const { cutText: text } = this.state
+        const root = document.querySelector('.text').firstChild;
+        const content = root.nodeValue;
+        if (content.includes(text)) {
             if (document.createRange) {
-                let rng = document.createRange();
-                rng.setStart(root, content.indexOf(text));
-                rng.setEnd(root, content.indexOf(text) + text.length);
-                let highlightDiv = document.createElement('span');
-                let br = document.createElement('br');
-                style === 'color' ? highlightDiv.style.color = 'blue' :
-                style === 'background' ? highlightDiv.style.background = 'red' :
-                style === 'font' ? highlightDiv.style.fontSize = '40px' :
-                            highlightDiv.style.background = 'white'
-                if (style === 'br') {
-                    rng.surroundContents(br);
-                } else {
-                    rng.surroundContents(highlightDiv);
+                const range = document.createRange();
+                range.setStart(root, content.indexOf(text));
+                range.setEnd(root, content.indexOf(text) + text.length);
+                const highlightDiv = document.createElement('span');
+                const br = document.createElement('br');
+                const isStyleBr = (style === 'br')
+                if (!isStyleBr) {
+                    highlightDiv.style[style] = defaultStyleValues[style]
                 }
+                const contentToSurround = isStyleBr ? br : highlightDiv
+                range.surroundContents(contentToSurround)
             }
         } else {
-            alert('Немає збігів');
+            alert('Select text from right to left please, move only right to left direction');
         }
     }
-    getRangeObject = (win) => {
-        win = win || window;
-        if (win.getSelection) {
-            try {
-                return win.getSelection().getRangeAt(0);
-            } catch (e) { }
-        } else if (win.document.selection) {
-            var range = win.document.selection.createRange();
-            return this.fixIERangeObject(range, win);
+    getRangeObject = () => {
+        if (window.getSelection) {
+             return window.getSelection().getRangeAt(0);
         }
         return null;
     }
@@ -62,56 +60,70 @@ class App extends React.Component {
                 anchorOffset: range.endOffset,
             })
         } else {
-            alert('Виділіть текст');
+            alert('Select text from right to left please, move only right to left direction');
         }
     }
     nodeToJson = () => {
         const body = document.querySelector('.text');
-        let textNodes = [];
+        const textNodes = [];
         let id = 0;
-        function recursy(element) {
+        function recursion(element) {
             element.childNodes.forEach((node => {
-                if (node.nodeName.match(/^SPAN/)) {
+                const { nodeName, style, textContent } = node
+                // const { background = 'white', color = 'black', fontSize = '20px' } = style
+                if (nodeName.match(/^SPAN/)) {
                     const obj = {
-                        id: id, text: node.textContent,  fontSize: node.style.fontSize ? node.style.fontSize : '20px',
-                        color: node.style.color ? node.style.color : 'black',
-                        background: node.style.background ? node.style.background : 'white',
-                        nodeName: node.nodeName,
+                        id,
+                        text: textContent,
+                        fontSize: style.fontSize,
+                        color:style.color,
+                        background: style.background,
+                        nodeName,
                     }
                     id++
                     textNodes.push(obj)
-                } else { recursy(node)}
+                } else { recursion(node)}
             }))
         }
 
-        recursy(body)
+        recursion(body)
         this.setState({textNodes}, () => {
-            alert('Відкрийте консоль')
+            alert('Open console.log to view the result')
             console.log(JSON.stringify(this.state.textNodes))
         })
 
     }
-    changeColor = () => {this.domRangeHighlight(this.state.cutText, 'color');}
-    changeBg = () => {this.domRangeHighlight(this.state.cutText, 'background');}
-    zoomInFont = () => {this.domRangeHighlight(this.state.cutText, 'font'); }
-    createBr = () => { this.domRangeHighlight(this.state.cutText, 'br'); }
-
+    changeColor = () => {this.domRangeHighlight( 'color');}
+    changeBg = () => {this.domRangeHighlight('background');}
+    zoomInFont = () => {this.domRangeHighlight( 'fontSize'); }
+    createBr = () => { this.domRangeHighlight( 'br'); }
     render() {
         return (
             <div className="App">
-                <span spellCheck={true}
-                      className="text"
-                      onMouseUp={this.setNewCutText}>
+                <span
+                    spellCheck={true}
+                    className="text"
+                    onMouseUp={this.setNewCutText}>
                 </span>
                 <div>
                     {this.state.textNodes.map(textNodes => (<NodeElement key={textNodes.id} {...textNodes} />))}
                 </div>
                 <div className="buttons">
-                    <Button onClick={this.changeBg} className="button" value={"change bg"}/>
-                    <Button onClick={this.changeColor} className="button" value={"change color"}/>
-                    <Button onClick={this.zoomInFont} className="button" value={"zoom in font"}/>
-                    <Button onClick={this.createBr} className="button" value={"br"}/>
-                    <Button onClick={this.nodeToJson} className="button" value={"create JSON"}/>
+                    <Button onClick={this.changeBg}>
+                        change bg
+                    </Button>
+                    <Button onClick={this.changeColor}>
+                        change color
+                    </Button>
+                    <Button onClick={this.zoomInFont}>
+                        zoom in font
+                    </Button>
+                    <Button onClick={this.createBr}>
+                        br
+                    </Button>
+                    <Button onClick={this.nodeToJson}>
+                        create JSON
+                    </Button>
                 </div>
             </div>
         );
