@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/test-redentu/static/css/main.a122c8f8.chunk.css",
+    "main.js": "/test-redentu/static/js/main.214e7e86.chunk.js",
+    "main.js.map": "/test-redentu/static/js/main.214e7e86.chunk.js.map",
+    "runtime-main.js": "/test-redentu/static/js/runtime-main.ad826a4c.js",
+    "runtime-main.js.map": "/test-redentu/static/js/runtime-main.ad826a4c.js.map",
+    "static/js/2.46db9b62.chunk.js": "/test-redentu/static/js/2.46db9b62.chunk.js",
+    "static/js/2.46db9b62.chunk.js.map": "/test-redentu/static/js/2.46db9b62.chunk.js.map",
+    "index.html": "/test-redentu/index.html",
+    "precache-manifest.d1b4004676c5240305edeee40ce0095b.js": "/test-redentu/precache-manifest.d1b4004676c5240305edeee40ce0095b.js",
+    "service-worker.js": "/test-redentu/service-worker.js",
+    "static/css/main.a122c8f8.chunk.css.map": "/test-redentu/static/css/main.a122c8f8.chunk.css.map",
+    "static/js/2.46db9b62.chunk.js.LICENSE.txt": "/test-redentu/static/js/2.46db9b62.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ad826a4c.js",
+    "static/js/2.46db9b62.chunk.js",
+    "static/css/main.a122c8f8.chunk.css",
+    "static/js/main.214e7e86.chunk.js"
+  ]
+}
