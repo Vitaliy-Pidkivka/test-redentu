@@ -1,0 +1,18 @@
+.button {
+  outline: none;
+  border: none;
+  background: linear-gradient(to bottom, gray, lightgray);
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-family: cursive;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 2px 0 black;
+  position: relative;
+  transition: all 150ms ease;
+  &:hover{
+    box-shadow: none;
+    top: 2px;
+  }
+}
