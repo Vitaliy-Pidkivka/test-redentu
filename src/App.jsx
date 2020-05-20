@@ -27,13 +27,10 @@ class App extends React.Component {
                     rng.surroundContents(br);
                 } else {
                     rng.surroundContents(highlightDiv);
-                    this.setState({
-                        text: rng
-                    }, ()=>{ console.log(this.state.text) })
                 }
             }
         } else {
-            alert('Совпадений не найдено');
+            alert('Немає збігів');
         }
     }
 
@@ -42,25 +39,51 @@ class App extends React.Component {
         cutText: '',
         focusOffset: 0,
         anchorOffset: 0,
+        textNodes: [],
+        nodeElements:[],
     }
-    changeColor = () => {
-        this.domRangeHighlight(this.state.cutText, 'color')
+    saveJson = () =>{
+
     }
-    changeBg = () => {
-        this.domRangeHighlight(this.state.cutText, 'background')
+    nodeToJson = () => {
+        const body = document.querySelector('.text');
+        let textNodes = [];
+        let nodeElements = [];
+        let id = 0;
+        function recursy(element) {
+            element.childNodes.forEach((node => {
+                if (node.nodeName.match(/^SPAN/)) {
+                    const obj = {
+                        id: id, text: node.textContent,  fontSize: node.style.fontSize ? node.style.fontSize : '20px',
+                        color: node.style.color ? node.style.color : 'black',
+                        background: node.style.background ? node.style.background : 'white'
+                    }
+                    const obj2 = { id: id, nodeName: node.nodeName,textContent: node.textContent}
+                    id++
+                    textNodes.push(obj)
+                    nodeElements.push(obj2)
+                } else { recursy(node)}
+            }))
+        }
+
+        recursy(body)
+        this.setState({textNodes,nodeElements}, () => {
+            alert('Відкрийте консоль')
+            console.log(JSON.stringify(this.state.textNodes))
+            console.log(JSON.stringify(this.state.nodeElements))
+        })
+
     }
-    zoomInFont = () => {
-        this.domRangeHighlight(this.state.cutText, 'font')
-    }
-    createBr = () => {
-        this.domRangeHighlight(this.state.cutText, 'br')
-    }
+    changeColor = () => {this.domRangeHighlight(this.state.cutText, 'color');}
+    changeBg = () => {this.domRangeHighlight(this.state.cutText, 'background');}
+    zoomInFont = () => {this.domRangeHighlight(this.state.cutText, 'font'); }
+    createBr = () => { this.domRangeHighlight(this.state.cutText, 'br'); }
     getRangeObject = (win) => {
         win = win || window;
         if (win.getSelection) {
             try {
                 return win.getSelection().getRangeAt(0);
-            } catch (e) {  }
+            } catch (e) { }
         } else if (win.document.selection) {
             var range = win.document.selection.createRange();
             return this.fixIERangeObject(range, win);
@@ -72,7 +95,7 @@ class App extends React.Component {
         if (range) {
             this.setState({
                 text: range.startContainer.nodeValue,
-                cutText: range.toString() ,
+                cutText: range.toString(),
                 focusOffset: range.startOffset,
                 anchorOffset: range.endOffset,
             })
@@ -93,6 +116,7 @@ class App extends React.Component {
                     <Button onClick={this.changeColor} className="button" value={"change color"}/>
                     <Button onClick={this.zoomInFont} className="button" value={"zoom in font"}/>
                     <Button onClick={this.createBr} className="button" value={"br"}/>
+                    <Button onClick={this.nodeToJson} className="button" value={"create JSON"}/>
                 </div>
             </div>
         );
