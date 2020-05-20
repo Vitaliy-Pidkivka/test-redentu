@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/test-redentu/precache-manifest.d1b4004676c5240305edeee40ce0095b.js"
+  "/test-redentu/precache-manifest.93572020273ddf2a9586f73daf0fff62.js"
 );
 
 self.addEventListener('message', (event) => {
