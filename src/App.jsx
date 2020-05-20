@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Button from "./components/shared/Button/Button";
+import NodeElement from "./components/NodeEmelent/NodeElement";
 
 class App extends React.Component {
 
@@ -8,7 +9,13 @@ class App extends React.Component {
         let text = document.querySelector('.text');
         text.innerHTML = `${this.state.text}`
     }
-
+    state = {
+        text: 'Hi My lovely little Ponny',
+        cutText: '',
+        focusOffset: 0,
+        anchorOffset: 0,
+        textNodes: [],
+    }
     domRangeHighlight(text, style) {
         let root = document.querySelector('.text').firstChild;
         let content = root.nodeValue;
@@ -20,8 +27,8 @@ class App extends React.Component {
                 let highlightDiv = document.createElement('span');
                 let br = document.createElement('br');
                 style === 'color' ? highlightDiv.style.color = 'blue' :
-                    style === 'background' ? highlightDiv.style.background = 'red' :
-                        style === 'font' ? highlightDiv.style.fontSize = '35px' :
+                style === 'background' ? highlightDiv.style.background = 'red' :
+                style === 'font' ? highlightDiv.style.fontSize = '40px' :
                             highlightDiv.style.background = 'white'
                 if (style === 'br') {
                     rng.surroundContents(br);
@@ -33,51 +40,6 @@ class App extends React.Component {
             alert('Немає збігів');
         }
     }
-
-    state = {
-        text: 'Hi My lovely little Ponny',
-        cutText: '',
-        focusOffset: 0,
-        anchorOffset: 0,
-        textNodes: [],
-        nodeElements:[],
-    }
-    saveJson = () =>{
-
-    }
-    nodeToJson = () => {
-        const body = document.querySelector('.text');
-        let textNodes = [];
-        let nodeElements = [];
-        let id = 0;
-        function recursy(element) {
-            element.childNodes.forEach((node => {
-                if (node.nodeName.match(/^SPAN/)) {
-                    const obj = {
-                        id: id, text: node.textContent,  fontSize: node.style.fontSize ? node.style.fontSize : '20px',
-                        color: node.style.color ? node.style.color : 'black',
-                        background: node.style.background ? node.style.background : 'white'
-                    }
-                    const obj2 = { id: id, nodeName: node.nodeName,textContent: node.textContent}
-                    id++
-                    textNodes.push(obj)
-                    nodeElements.push(obj2)
-                } else { recursy(node)}
-            }))
-        }
-
-        recursy(body)
-        this.setState({textNodes,nodeElements}, () => {
-            alert('Відкрийте консоль')
-            console.log(JSON.stringify(this.state.textNodes))
-            console.log(JSON.stringify(this.state.nodeElements))
-        })
-
-    }
-    changeColor = () => {this.domRangeHighlight(this.state.cutText, 'color');}
-    changeBg = () => {this.domRangeHighlight(this.state.cutText, 'background');}
-    zoomInFont = () => {this.domRangeHighlight(this.state.cutText, 'font'); }
-    createBr = () => { this.domRangeHighlight(this.state.cutText, 'br'); }
     getRangeObject = (win) => {
         win = win || window;
         if (win.getSelection) {
@@ -103,6 +65,36 @@ class App extends React.Component {
             alert('Виділіть текст');
         }
     }
+    nodeToJson = () => {
+        const body = document.querySelector('.text');
+        let textNodes = [];
+        let id = 0;
+        function recursy(element) {
+            element.childNodes.forEach((node => {
+                if (node.nodeName.match(/^SPAN/)) {
+                    const obj = {
+                        id: id, text: node.textContent,  fontSize: node.style.fontSize ? node.style.fontSize : '20px',
+                        color: node.style.color ? node.style.color : 'black',
+                        background: node.style.background ? node.style.background : 'white',
+                        nodeName: node.nodeName,
+                    }
+                    id++
+                    textNodes.push(obj)
+                } else { recursy(node)}
+            }))
+        }
+
+        recursy(body)
+        this.setState({textNodes}, () => {
+            alert('Відкрийте консоль')
+            console.log(JSON.stringify(this.state.textNodes))
+        })
+
+    }
+    changeColor = () => {this.domRangeHighlight(this.state.cutText, 'color');}
+    changeBg = () => {this.domRangeHighlight(this.state.cutText, 'background');}
+    zoomInFont = () => {this.domRangeHighlight(this.state.cutText, 'font'); }
+    createBr = () => { this.domRangeHighlight(this.state.cutText, 'br'); }
 
     render() {
         return (
@@ -111,6 +103,9 @@ class App extends React.Component {
                       className="text"
                       onMouseUp={this.setNewCutText}>
                 </span>
+                <div>
+                    {this.state.textNodes.map(textNodes => (<NodeElement key={textNodes.id} {...textNodes} />))}
+                </div>
                 <div className="buttons">
                     <Button onClick={this.changeBg} className="button" value={"change bg"}/>
                     <Button onClick={this.changeColor} className="button" value={"change color"}/>
