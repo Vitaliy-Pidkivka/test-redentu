@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "41ca9f44414e431a50376aa7a47a2780",
+    "revision": "47ea685327fb696a0fbe59e54b19494a",
     "url": "/test-redentu/index.html"
   },
   {
-    "revision": "ab289568228848bed447",
+    "revision": "f6b2b292094ac634d160",
     "url": "/test-redentu/static/css/main.a122c8f8.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/test-redentu/static/js/2.46db9b62.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "ab289568228848bed447",
-    "url": "/test-redentu/static/js/main.a0852f92.chunk.js"
+    "revision": "f6b2b292094ac634d160",
+    "url": "/test-redentu/static/js/main.a4b70221.chunk.js"
   },
   {
     "revision": "aeae638f17d80f0de718",

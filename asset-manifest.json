@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/test-redentu/static/css/main.a122c8f8.chunk.css",
-    "main.js": "/test-redentu/static/js/main.a0852f92.chunk.js",
-    "main.js.map": "/test-redentu/static/js/main.a0852f92.chunk.js.map",
+    "main.js": "/test-redentu/static/js/main.a4b70221.chunk.js",
+    "main.js.map": "/test-redentu/static/js/main.a4b70221.chunk.js.map",
     "runtime-main.js": "/test-redentu/static/js/runtime-main.ad826a4c.js",
     "runtime-main.js.map": "/test-redentu/static/js/runtime-main.ad826a4c.js.map",
     "static/js/2.46db9b62.chunk.js": "/test-redentu/static/js/2.46db9b62.chunk.js",
     "static/js/2.46db9b62.chunk.js.map": "/test-redentu/static/js/2.46db9b62.chunk.js.map",
     "index.html": "/test-redentu/index.html",
-    "precache-manifest.93572020273ddf2a9586f73daf0fff62.js": "/test-redentu/precache-manifest.93572020273ddf2a9586f73daf0fff62.js",
+    "precache-manifest.2984baa2da0dc48448b4d71b334f34cc.js": "/test-redentu/precache-manifest.2984baa2da0dc48448b4d71b334f34cc.js",
     "service-worker.js": "/test-redentu/service-worker.js",
     "static/css/main.a122c8f8.chunk.css.map": "/test-redentu/static/css/main.a122c8f8.chunk.css.map",
     "static/js/2.46db9b62.chunk.js.LICENSE.txt": "/test-redentu/static/js/2.46db9b62.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.ad826a4c.js",
     "static/js/2.46db9b62.chunk.js",
     "static/css/main.a122c8f8.chunk.css",
-    "static/js/main.a0852f92.chunk.js"
+    "static/js/main.a4b70221.chunk.js"
   ]
 }
