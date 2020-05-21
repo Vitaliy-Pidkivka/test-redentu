@@ -69,7 +69,7 @@ class App extends React.Component {
         let id = 0;
         function recursion(element) {
             element.childNodes.forEach((node => {
-                const { nodeName, style, textContent } = node
+                const {nodeName, style, textContent } = node
                 // const { background = 'white', color = 'black', fontSize = '20px' } = style
                 if (nodeName.match(/^SPAN/)) {
                     const obj = {
@@ -78,7 +78,6 @@ class App extends React.Component {
                         fontSize: style.fontSize,
                         color:style.color,
                         background: style.background,
-                        nodeName,
                     }
                     id++
                     textNodes.push(obj)
